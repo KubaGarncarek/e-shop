@@ -1,0 +1,30 @@
+.form-inline {
+    float: right;
+}
+
+img {
+    width:30px;
+}
+
+#main {
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    display: flex; 
+    flex-wrap: wrap;
+    
+}
+
+#main > div {
+    width: 400px;
+    height: 400px;
+    margin: 30px;
+}
+#main > div > img {
+    width: 100%;
+}
+/* .nav > .nav-item > .nav-link {
+    
+} */
+
+/* #7E1B9F; */

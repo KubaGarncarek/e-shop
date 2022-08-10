@@ -1,0 +1,47 @@
+{% extends "eshop/layout.html" %}
+{%load static %}
+
+{% block head %}
+    <link href="{% static 'eshop/product_page.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div id="data">
+        {{product|json_script:"product"}}
+        {{available_sizes|json_script:"available_sizes"}}
+        
+    </div>
+    <div class="split left" >
+        <div class="centered">
+            <img src="{{product.photo}}">
+        </div>
+    </div>
+    <div class="split right">
+        <div class="info">
+            <h3>{{product.name}}</h3>
+            <h6>{{product.price}} zł</h6>
+
+            <div class="size">
+                {%for size in sizes%}
+                    {% if size in available_sizes %}
+                        <button class="btn btn-light">EU {{size|safe}}</button>
+                    {% else %}
+                        <button disabled class="btn btn-light">EU {{size|safe}}</button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="favorites">
+                <button id="cart" class="btn btn-dark">Add To Cart</button>
+                <button id="favorites" class="btn btn-light">Favorites &#9829</button>
+            </div>
+            <h6>Style: {{product.product_code}}</h6>
+            
+        </div>
+        
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'eshop/product_page.js'%}"></script>
+{% endblock %}

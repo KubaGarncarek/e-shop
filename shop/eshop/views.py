@@ -1,22 +1,50 @@
+from itertools import product
 from django.shortcuts import render
 from django.contrib.auth import login, authenticate, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from werkzeug import security
-
-from .models import User 
+from django.core.serializers import serialize
+from .models import User, Product, Availability, Size
+from django.forms.models import model_to_dict
 
 # Create your views here.
 
 def index(request):
     return render(request, "eshop/index.html")
 
+
+def load_products(request):
+    products = Product.objects.all()
+
+    return JsonResponse({
+        "products": [product.serialize() for product in products]})
+
+def load_product_page(request, product_id):
+    available_sizes =[]
+    product = Product.objects.get(pk=product_id)
+    availability = Availability.objects.filter(product = product)
+    for available in availability:
+        available_sizes.append(available.size.eu)
+    sizes = Size.objects.all().order_by('eu')
+
+    print(available_sizes)
+    return render(request, "eshop/product_page.html",{
+        "product" : product.serialize(),
+       "available_sizes": available_sizes,
+       "sizes": sizes
+    })
+    
+
+
+
+
+
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST["username"]
         password = request.POST["password"]
-        hash = security.generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
 
         user = authenticate(request, username = username, password = password)
         if user is not None:

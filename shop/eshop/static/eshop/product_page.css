@@ -6,6 +6,7 @@
     top: 0;
     overflow-x: hidden;
     padding-top: 20px;
+    margin-top: 70px;
 }
 
 /* Control the left side */
@@ -23,8 +24,8 @@
 /* If you want the content centered horizontally and vertically */
 .centered {
     position: absolute;
-    top: 55%;
-    left: 50%;
+    top: 50%;
+    left: 40%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
@@ -39,13 +40,13 @@
     margin-left: 10%;
 }
 
-.size {
+.sizes {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
-.size .btn {
+.sizes .btn {
     width: 30%;
     margin: 5px;
     border: 1px solid grey;
@@ -59,4 +60,9 @@
     height: 70px;
     border: 1px solid grey;
     border-radius: 20px;
+}
+
+#disabled {
+    border: 0;
+
 }

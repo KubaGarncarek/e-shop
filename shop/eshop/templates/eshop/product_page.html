@@ -21,22 +21,28 @@
             <h3>{{product.name}}</h3>
             <h6>{{product.price}} zł</h6>
 
-            <div class="size">
-                {%for size in sizes%}
-                    {% if size in available_sizes %}
+            <div class="sizes">
+                {% for size in sizes %}
+                    {% if size.eu in available_sizes %}
                         <button class="btn btn-light">EU {{size|safe}}</button>
                     {% else %}
-                        <button disabled class="btn btn-light">EU {{size|safe}}</button>
+                        <button type="button" id="disabled" class="btn btn-light disabled" disabled>EU {{size|safe}}</button>
                     {% endif %}
                 {% endfor %}
+                <!-- don't know why this not working -->
             </div>
             <div class="favorites">
                 <button id="cart" class="btn btn-dark">Add To Cart</button>
                 <button id="favorites" class="btn btn-light">Favorites &#9829</button>
+                
+
             </div>
-            <h6>Style: {{product.product_code}}</h6>
+            
+            
+            <h6 id="product_code">Style: {{product.product_code|safe}}</h6>
             
         </div>
+
         
 
     </div>

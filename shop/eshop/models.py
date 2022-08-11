@@ -8,6 +8,16 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+class Cart(models.Model):
+    user = models.ForeignKey("User", blank=False, on_delete=models.CASCADE)
+    product = models.ForeignKey("Product", blank=False, on_delete=models.CASCADE)
+    size = models.ForeignKey("Size", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return (self.user.username,
+        self.product.name,
+        self.size.eu)
     
 class Product(models.Model):
     name = models.CharField(max_length=64)
@@ -54,6 +64,9 @@ class Availability(models.Model):
 
 class Size(models.Model):
     eu = models.IntegerField()
+
+    def serialize(self):
+        return self
 
     def __str__(self):
         return str(self.eu)

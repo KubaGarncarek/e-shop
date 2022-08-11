@@ -10,4 +10,5 @@ urlpatterns = [
 
     path("load_products", views.load_products, name="load_products"),
     path("load_product_page/<int:product_id>", views.load_product_page, name="load_product_page"),
+    path("cart", views.cart, name="cart"),
 ]

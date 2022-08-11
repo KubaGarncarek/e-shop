@@ -1,13 +1,12 @@
-from itertools import product
+import json
 from django.shortcuts import render
 from django.contrib.auth import login, authenticate, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.core.serializers import serialize
-from .models import User, Product, Availability, Size
-from django.forms.models import model_to_dict
-
+from .models import User, Product, Availability, Size, Cart
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def index(request):
@@ -34,8 +33,24 @@ def load_product_page(request, product_id):
        "available_sizes": available_sizes,
        "sizes": sizes
     })
-    
 
+@csrf_exempt
+def cart(request):
+    if request.method == 'POST':
+        product_info = json.loads(request.body)
+        product_code = product_info.get('product_code')
+        size = product_info.get('size')
+        product = Product.objects.get(product_code=product_code)
+        size = Size.objects.get(eu=size)
+        update_cart = Cart(
+            user = request.user,
+            product = product,
+            size = size
+        )
+        update_cart.save()
+        return JsonResponse({"succes": "added product to cart"})
+
+    return render(request, "eshop/cart.html")
 
 
 

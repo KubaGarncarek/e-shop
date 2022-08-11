@@ -40,3 +40,4 @@ function load_product_page(product_id) {
     window.location.href = `http://127.0.0.1:8000/load_product_page/${product_id}`;
     
 }
+

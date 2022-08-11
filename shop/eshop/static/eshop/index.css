@@ -22,6 +22,31 @@ img {
 }
 #main > div > img {
     width: 100%;
+    
+
+
+}
+.navbar {
+    margin-bottom: 10px;
+}
+
+ul {
+    margin-inline-start: 50px;
+    margin-inline-end: 50px;
+}
+
+.fa {
+    font-size:20px;
+}
+.fa-shopping-cart {
+    font-size: 20px;
+}
+
+.badge-primary {
+    color: #212529;
+}
+.badge {
+    font-size:65%;
 }
 /* .nav > .nav-item > .nav-link {
     

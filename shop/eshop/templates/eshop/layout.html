@@ -6,12 +6,13 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'eshop/index.css' %}" rel="stylesheet">
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-
+        <script src="{% static 'eshop/layout.js'%}"></script>
 
         
         {% block head %}
         {% endblock %}
         {% block script %}
+            
         {% endblock %}
     </head>
     <body>
@@ -39,7 +40,7 @@
                     </a>
                 </li>
                 {% if user.is_authenticated %}
-                <li class="nav-item">
+                <li id="logout" class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                 </li>
                 {% else %}

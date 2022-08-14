@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import login, authenticate, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.serializers import serialize
 from .models import User, Product, Availability, Size, Cart
@@ -27,6 +28,7 @@ def load_product_page(request, product_id):
         available_sizes.append(available.size.eu)
     sizes = Size.objects.all().order_by('eu')
 
+
     print(available_sizes)
     return render(request, "eshop/product_page.html",{
         "product" : product.serialize(),
@@ -34,14 +36,30 @@ def load_product_page(request, product_id):
        "sizes": sizes
     })
 
+def get_count_of_cart(request):
+    count_of_cart = Cart.objects.filter(user = request.user).count()
+    print(count_of_cart)
+    return JsonResponse({"count_of_cart": count_of_cart})
+
+
 @csrf_exempt
 def cart(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    if request.method == "GET":
+        cart_products = Cart.objects.filter(user = request.user)
+        return render(request, "eshop/cart.html", {
+            "cart_products" : cart_products
+        })
+
+
+    product_info = json.loads(request.body)
+    product_code = product_info.get('product_code')
+    size = product_info.get('size')
+    product = Product.objects.get(product_code=product_code)
+    size = Size.objects.get(eu=size)
+
     if request.method == 'POST':
-        product_info = json.loads(request.body)
-        product_code = product_info.get('product_code')
-        size = product_info.get('size')
-        product = Product.objects.get(product_code=product_code)
-        size = Size.objects.get(eu=size)
         update_cart = Cart(
             user = request.user,
             product = product,
@@ -50,10 +68,14 @@ def cart(request):
         update_cart.save()
         return JsonResponse({"succes": "added product to cart"})
 
-    return render(request, "eshop/cart.html")
+    if request.method =="DELETE":
+        product = Cart.objects.get(
+            user = request.user, 
+            product = product, 
+            size = size)
+        product.delete()
 
-
-
+        return JsonResponse({"succes":"Delete product from cart"})
 
 
 def login_view(request):

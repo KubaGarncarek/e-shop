@@ -14,7 +14,7 @@ class Cart(models.Model):
     product = models.ForeignKey("Product", blank=False, on_delete=models.CASCADE)
     size = models.ForeignKey("Size", on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __touple__(self):
         return (self.user.username,
         self.product.name,
         self.size.eu)

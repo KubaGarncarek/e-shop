@@ -52,7 +52,7 @@ function add_product_to_cart(choosen_size, product_code) {
             size : choosen_size.substr(3,),
         })
     })
-    .then(response => response.json)
+    .then(response => response.json())
     .then(result => {
         console.log(result);
     })

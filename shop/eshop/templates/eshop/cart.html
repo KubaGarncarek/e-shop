@@ -1,2 +1,49 @@
 
 {% extends "eshop/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link href="{% static 'eshop/cart.css' %}" rel="stylesheet">
+{% endblock %}
+{% block script %}
+        <script src="{% static 'eshop/cart.js'%}"></script>
+{% endblock %}
+
+{% block body %}
+    
+    <div class="split left"> 
+        <h2>Cart</h2>
+        {% for product in cart_products %}
+        
+            <div class="product_box">
+                <div class="product_photo">
+                    <img src="{{product.product.photo}}">
+                </div>
+                <div class="product_info">
+                    <h5>{{product.product.name}}</h5>
+                    <h6>{{product.product.category}}</h6>
+                    <h6 class="product_code">{{product.product.product_code}}</h6>
+                    <h6 class="size">Size: {{product.size}}</h6>
+                </div>
+                <div class="ending">
+                    <div>
+                        {{product.product.price}} zł
+                    </div>
+                    <div class="icons">
+                        <i class="fa fa-heart" style="font-size:24px"> </i>
+                        <i id="bin" class="fa fa-trash-o" style="font-size:24px"></i>
+                    </div>              
+                </div>
+            </div>
+    
+        {% endfor %}
+    </div>
+    <div class="split right">
+        <div class="summary_box">
+        <h4>Summary</h4>
+        <h6>Total Cost:</h6> 
+        <button id="cart" class="btn btn-dark">Go To Checkout</button>
+        </div>
+    </div>
+    
+{% endblock %}
